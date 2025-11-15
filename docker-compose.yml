@@ -1,0 +1,30 @@
+services:
+  bookify.api:
+    container_name: bookifyapi
+    image: ${DOCKER_REGISTRY-}bookifyapi
+    build:
+      context: .
+      dockerfile: Bookify.Api/Dockerfile
+    networks:
+      - postgres-network
+    depends_on:
+      - bookifydb
+
+  bookifydb:
+    container_name: bookifydb
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=bookify
+      - POSTGRES_USER=bookifyuser
+      - POSTGRES_PASSWORD=BookifyPassword123!
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    name: postgres-network
+    driver: bridge

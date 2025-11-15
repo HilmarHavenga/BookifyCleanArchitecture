@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using Bookify.Domain.Abstractions;
+global using MediatR;
+global using Bookify.Domain.Apartments;
+global using Bookify.Domain.Shared;
+global using Bookify.Domain.Bookings;
+global using Bookify.Domain.Reviews.Events;
+global using Bookify.Domain.Users.Events;

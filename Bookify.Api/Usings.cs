@@ -1,0 +1,16 @@
+﻿global using Scalar.AspNetCore;
+global using Bookify.Application;
+global using Asp.Versioning.Builder;
+global using Bookify.Api.Endpoints;
+global using System.Reflection;
+global using Bookify.Api.Extensions;
+global using Bookify.Infrastructure;
+global using Bookify.Api;
+global using Asp.Versioning;
+global using Bookify.Application.Apartments.SearchApartments;
+global using MediatR;
+global using Bookify.Application.Bookings.GetBooking;
+global using Bookify.Application.Bookings.ReserveBooking;
+global using Bookify.Application.Exceptions;
+global using Microsoft.AspNetCore.Mvc;
+global using Bookify.Api.Middleware;
