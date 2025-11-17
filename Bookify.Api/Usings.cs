@@ -18,3 +18,5 @@ global using Bookify.Application.Abstractions.Messaging;
 global using Bookify.Application.Users.RegisterUser;
 global using Bookify.Domain.Abstractions;
 global using Bookify.Application.Users.LogInUser;
+global using Serilog;
+global using Serilog.Context;

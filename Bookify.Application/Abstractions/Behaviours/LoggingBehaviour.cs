@@ -2,10 +2,11 @@
 
 public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
+    where TResponse : Result
 {
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
 
-    public LoggingBehaviour(ILogger<TRequest> logger)
+    public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }
@@ -16,17 +17,32 @@ public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 
         try
         {
-            _logger.LogInformation("Executing command {command}", name);
+            _logger.LogInformation("Executing request {Request}", name);
 
-            var result = await next();
+            var result = await next(cancellationToken);
 
-            _logger.LogInformation("Command {command} executed successfully", name);
+            if(result.IsSuccess)
+            {
+                _logger.LogInformation("Request {Request} processed successfully", name);
+            }
+            else
+            {
+                //@ to structured variable logging changes it to json structure
+                //_logger.LogInformation("Request {Request} processed with {@Error}", name, result.Error);
+
+                using (LogContext.PushProperty("Error", result.Error, true))
+                {
+                    _logger.LogError("Request {Request} processed with error", name);
+                }
+            }
+
+            _logger.LogInformation("Request {Request} executed successfully", name);
 
             return result;
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Command {command} failed", name);
+            _logger.LogError(exception, "Request {Request} failed", name);
 
             throw;
         }

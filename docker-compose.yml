@@ -5,6 +5,8 @@ services:
         build:
           context: .
           dockerfile: Bookify.Api/Dockerfile
+        ports:
+            - 52035:8081
         networks:
             - postgres-network
         depends_on:
@@ -53,6 +55,21 @@ services:
             - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/bookify-realm-export.json
         ports:
             - 18080:8080
+        networks:
+            - postgres-network
+
+    bookifyseq:
+        container_name: bookifyseq
+        image: datalust/seq:latest
+        environment:
+            - ACCEPT_EULA=Y
+            - SEQ_FIRSTRUN_ADMINPASSWORD=ChangeThisPassword123!
+        ports:
+            - 5341:5341
+            - 8082:80
+        volumes:
+            # ./.containers/seq:/data
+            []
         networks:
             - postgres-network
 

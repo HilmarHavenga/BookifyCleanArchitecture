@@ -42,7 +42,7 @@ public class PricingService
 
         return new PricingDetails(
             priceForPeriod,
-            apartment.CleaningFee,
+            new Money(apartment.CleaningFee.Amount, apartment.CleaningFee.Currency),
             amenitiesUpCharge,
             totalPrice);
     }

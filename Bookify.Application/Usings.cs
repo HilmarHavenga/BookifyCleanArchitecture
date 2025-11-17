@@ -19,3 +19,4 @@ global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
 global using Bookify.Application.Abstractions.Authentication;
+global using Serilog.Context;

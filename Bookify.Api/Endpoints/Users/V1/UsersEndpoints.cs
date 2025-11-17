@@ -48,7 +48,7 @@ public class UsersEndpoints : IEndpoints
         return Results.Ok(result.Value);
     }
 
-    internal static IResult GetLoggedInUser(ISender sender, LogInUserRequest request, CancellationToken cancellationToken)
+    internal static IResult GetLoggedInUser(ISender sender, CancellationToken cancellationToken)
     {
         return Results.Ok("You are logged in silly");
     }

@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
 builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -27,6 +30,9 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 app.UseCustomExceptionHandler();
+
+app.UseRequestContextLogging();
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

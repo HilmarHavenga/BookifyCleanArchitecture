@@ -15,8 +15,6 @@ internal sealed class AuthenticationService : Application.Abstractions.Authentic
         string password,
         CancellationToken cancellationToken = default)
     {
-        //var userRepresentationModel = UserRepresentationModel.FromUser(user);
-
         var model = new KeycloakUserCreate
         {
             FirstName = user.FirstName.Value,
