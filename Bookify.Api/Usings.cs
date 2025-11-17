@@ -14,3 +14,7 @@ global using Bookify.Application.Bookings.ReserveBooking;
 global using Bookify.Application.Exceptions;
 global using Microsoft.AspNetCore.Mvc;
 global using Bookify.Api.Middleware;
+global using Bookify.Application.Abstractions.Messaging;
+global using Bookify.Application.Users.RegisterUser;
+global using Bookify.Domain.Abstractions;
+global using Bookify.Application.Users.LogInUser;

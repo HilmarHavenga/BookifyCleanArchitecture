@@ -1,28 +1,60 @@
 services:
-  bookify.api:
-    container_name: bookifyapi
-    image: ${DOCKER_REGISTRY-}bookifyapi
-    build:
-      context: .
-      dockerfile: Bookify.Api/Dockerfile
-    networks:
-      - postgres-network
-    depends_on:
-      - bookifydb
-
-  bookifydb:
-    container_name: bookifydb
-    image: postgres:latest
-    environment:
-      - POSTGRES_DB=bookify
-      - POSTGRES_USER=bookifyuser
-      - POSTGRES_PASSWORD=BookifyPassword123!
-    volumes:
-      - ./.containers/database:/var/lib/postgresql/data
-    ports:
-      - 5433:5432
-    networks:
-      - postgres-network
+    bookify.api:
+        container_name: bookifyapi
+        image: ${DOCKER_REGISTRY-}bookifyapi
+        build:
+          context: .
+          dockerfile: Bookify.Api/Dockerfile
+        networks:
+            - postgres-network
+        depends_on:
+            bookifydb:
+                condition: service_healthy
+    
+    bookifydb:
+        container_name: bookifydb
+        image: postgres:latest
+        environment:
+            - POSTGRES_DB=bookify
+            - POSTGRES_USER=bookifyuser
+            - POSTGRES_PASSWORD=BookifyPassword123!
+        volumes:
+            # For development purposes only to ensure a fresh db every time
+            - ./.db-init:/docker-entrypoint-initdb.d
+        ports:
+            - 5433:5432
+        networks:
+            - postgres-network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U bookifyuser -d bookify || exit 1"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+            start_period: 10s
+    
+    bookifyidp:
+        container_name: bookifyidentity
+        image: quay.io/keycloak/keycloak:latest
+        depends_on:
+            bookifydb:
+                condition: service_healthy
+        environment:
+            - KEYCLOAK_ADMIN=admin
+            - KEYCLOAK_ADMIN_PASSWORD=admin
+            - KC_DB=postgres
+            - KC_DB_USERNAME=keycloakuser
+            - KC_DB_PASSWORD=KeycloakPassword123!
+            - KC_DB_URL=jdbc:postgresql://bookifydb:5432/keycloakdb
+        command:
+            - start-dev
+            - --import-realm
+        volumes:
+            - ./.containers/identity:/opt/keycloak/data
+            - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/bookify-realm-export.json
+        ports:
+            - 18080:8080
+        networks:
+            - postgres-network
 
 networks:
   postgres-network:

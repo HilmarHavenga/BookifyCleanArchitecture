@@ -19,8 +19,20 @@ builder.Services.AddApiVersioning(
     })
     .EnableApiVersionBinding();
 
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(PolicyNames.RegisteredRolePolicy, policy => policy.RequireRole(Roles.Registered));
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
+
 app.UseCustomExceptionHandler();
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseEndpoints<IApiMarker>();
 
 if (app.Environment.IsDevelopment())
@@ -28,13 +40,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 
-    app.EnsureCleanDatabase();
     app.ApplyMigrations();
     app.SeedData();
 }
-
-app.UseHttpsRedirection();
-
-//app.UseAuthorization();
 
 app.Run();

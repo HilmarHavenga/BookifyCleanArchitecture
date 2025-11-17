@@ -484,5 +484,7 @@ $RECYCLE.BIN/
 *.swp
 
 # Docker Volume
+/.containers/
 /.container/ 
 /.containers/database
+/.containers/identity

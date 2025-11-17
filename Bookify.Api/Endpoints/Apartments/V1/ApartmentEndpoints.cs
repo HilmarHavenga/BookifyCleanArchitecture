@@ -9,7 +9,7 @@ public sealed class ApartmentEndpoints : IEndpoints
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
-        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/apartments").HasApiVersion(MajorVersion, MinorVersion);
+        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/apartments").HasApiVersion(MajorVersion, MinorVersion).RequireAuthorization();
 
         versioned.MapGet("/", SearchApartments)
             .WithName("SearchApartments")

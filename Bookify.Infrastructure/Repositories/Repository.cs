@@ -15,7 +15,7 @@ public class Repository<T> : IRepository<T>
         return await db.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
-    public void Add(T entity)
+    public virtual void Add(T entity)
     {
         db.Add(entity);
     }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Bookify.Api.Endpoints.Bookings.V1;
+﻿namespace Bookify.Api.Endpoints.Bookings.V1;
 
 public class BookingEndpoints : IEndpoints
 {
@@ -23,7 +21,7 @@ public class BookingEndpoints : IEndpoints
             .WithName("ReserveBooking")
             .Accepts<ReserveBookingRequestV1>(ContentType)
             .Produces<Guid>(200)
-            .Produces(400)
+            .Produces<Error>(400)
             .WithTags(Tag);
     }
 

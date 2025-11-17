@@ -6,4 +6,14 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
         : base(dbContext)
     {
     }
+
+    public override void Add(User user)
+    {
+        foreach (var role in user.Roles)
+        {
+            db.Attach(role);
+        }
+
+        db.Add(user);
+    }
 }
