@@ -12,7 +12,9 @@ internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, Bo
 
         TypeAdapterConfig<Booking, BookingResponse>.NewConfig()
         .Map(dest => dest.PriceAmount, src => src.PriceForPeriod.Amount)
-        .Map(dest => dest.PriceCurrency, src => src.PriceForPeriod.Currency.Code);
+        .Map(dest => dest.PriceCurrency, src => src.PriceForPeriod.Currency.Code)
+        .Map(dest => dest.CleaningFeeCurrency, src => src.CleaningFee.Currency.Code)
+        .Map(dest => dest.AmenitiesUpChargeCurrency, src => src.AmenitiesUpCharge.Currency.Code);
     }
 
     public async Task<Result<BookingResponse>> Handle(GetBookingQuery request, CancellationToken cancellationToken)
