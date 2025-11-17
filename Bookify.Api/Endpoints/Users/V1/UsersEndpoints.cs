@@ -27,7 +27,7 @@ public class UsersEndpoints : IEndpoints
             .WithName("GetLoggedInUser")
             .Produces(200)
             .Produces(401)
-            .WithTags(Tag).RequireAuthorization(PolicyNames.RegisteredRolePolicy);
+            .WithTags(Tag).RequireAuthorization(Policies.RegisteredRolePolicy);
     }
 
     internal static async Task<IResult> RegisterUser(ISender sender, RegisterUserRequest request, CancellationToken cancellationToken)

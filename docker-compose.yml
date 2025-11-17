@@ -73,6 +73,15 @@ services:
         networks:
             - postgres-network
 
+    bookifyvalkey:
+        image: valkey/valkey:latest
+        container_name: bookifyvalkey
+        ports:
+            - 6379:6379
+        restart: always
+        networks:
+            - postgres-network
+
 networks:
   postgres-network:
     name: postgres-network

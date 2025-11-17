@@ -23,7 +23,7 @@ builder.Services.AddApiVersioning(
     .EnableApiVersionBinding();
 
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(PolicyNames.RegisteredRolePolicy, policy => policy.RequireRole(Roles.Registered));
+    .AddPolicy(Policies.RegisteredRolePolicy, policy => policy.RequireRole(Roles.Registered));
 
 builder.Services.AddAuthorization();
 

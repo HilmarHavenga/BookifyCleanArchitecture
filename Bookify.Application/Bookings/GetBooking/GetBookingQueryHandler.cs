@@ -5,11 +5,14 @@ internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, Bo
     private readonly IBookingRepository _bookingRepository;
     private readonly IUserContext _userContext;
 
-
     public GetBookingQueryHandler(IBookingRepository bookingRepository, IUserContext userContext)
     {
         _bookingRepository = bookingRepository;
         _userContext = userContext;
+
+        TypeAdapterConfig<Booking, BookingResponse>.NewConfig()
+        .Map(dest => dest.PriceAmount, src => src.PriceForPeriod.Amount)
+        .Map(dest => dest.PriceCurrency, src => src.PriceForPeriod.Currency.Code);
     }
 
     public async Task<Result<BookingResponse>> Handle(GetBookingQuery request, CancellationToken cancellationToken)
@@ -22,7 +25,5 @@ internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, Bo
         }
 
         return Result.Success(booking.Adapt<BookingResponse>());
-
-        throw new NotImplementedException();
     }
 }

@@ -15,6 +15,7 @@ public static class DependencyInjection
         AddPersistence(services, configuration);
         AddAuthentication(services, configuration);
         AddAuthorization(services);
+        AddCaching(services, configuration);
 
         return services;
     }
@@ -59,6 +60,16 @@ public static class DependencyInjection
         services.AddScoped<IUserContext, UserContext>();
     }
 
+    private static void AddCaching(IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("Cache") ??
+            throw new ArgumentNullException(nameof(configuration));
+
+        services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
+
+        services.AddSingleton<ICacheService, CacheService>();
+    }
+
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Database") ??
@@ -90,7 +101,7 @@ public static class DependencyInjection
 
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        if(dbContext.Set<Apartment>().Any())
+        if (dbContext.Set<Apartment>().Any())
         {
             return;
         }

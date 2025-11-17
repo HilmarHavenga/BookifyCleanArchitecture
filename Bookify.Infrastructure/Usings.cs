@@ -35,3 +35,6 @@ global using Microsoft.AspNetCore.Authentication;
 global using System.IdentityModel.Tokens.Jwt;
 global using Bookify.Infrastructure.Authorization;
 global using Microsoft.AspNetCore.Http;
+global using Bookify.Application.Abstractions.Caching;
+global using Microsoft.Extensions.Caching.Distributed;
+global using Bookify.Infrastructure.Caching;

@@ -9,7 +9,7 @@ public class BookingEndpoints : IEndpoints
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
-        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(MajorVersion, MinorVersion);
+        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(MajorVersion, MinorVersion).RequireAuthorization(Policies.RegisteredRolePolicy);
 
         versioned.MapGet("/", GetBooking)
             .WithName("GetBooking")

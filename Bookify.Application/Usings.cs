@@ -20,3 +20,4 @@ global using System.Text;
 global using System.Threading.Tasks;
 global using Bookify.Application.Abstractions.Authentication;
 global using Serilog.Context;
+global using Bookify.Application.Abstractions.Caching;
