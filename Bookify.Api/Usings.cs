@@ -20,3 +20,6 @@ global using Bookify.Domain.Abstractions;
 global using Bookify.Application.Users.LogInUser;
 global using Serilog;
 global using Serilog.Context;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
+global using System.Net;
+global using Bookify.Api.Endpoints.Health;

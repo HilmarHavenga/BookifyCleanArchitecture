@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) =>
@@ -23,9 +25,18 @@ builder.Services.AddApiVersioning(
     .EnableApiVersionBinding();
 
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(Policies.RegisteredRolePolicy, policy => policy.RequireRole(Roles.Registered));
+    .AddPolicy(Policies.REGISTERED_ROLE_POLICY, policy => policy.RequireRole(Roles.REGISTERED));
 
 builder.Services.AddAuthorization();
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+//Prefer to use the health check packages in infrastructure for standard checks
+//But here is a custom health check example if needed
+//builder.Services.AddHealthChecks().AddCheck<CustomSqlHealthCheck>("custom-sql");
 
 var app = builder.Build();
 

@@ -1,8 +1,7 @@
 ﻿namespace Bookify.Api.Endpoints.Users.V1;
 
-public class UsersEndpoints : IEndpoints
+public class UsersEndpoints : IVersionedEndpoints
 {
-    public static string ContentType => "application/json";
     public static string Tag => $"{nameof(UsersEndpoints)}";
     public static int MajorVersion => 1;
     public static int MinorVersion => 0;
@@ -13,12 +12,14 @@ public class UsersEndpoints : IEndpoints
 
         versioned.MapPost("/register", RegisterUser)
             .WithName("RegisterUser")
+            .Accepts<RegisterUserRequestV1>(EndpointDefaults.CONTENT_TYPE)
             .Produces(200)
             .Produces<Error>(400)
             .WithTags(Tag).AllowAnonymous();
 
         versioned.MapPost("/login", LoginUser)
             .WithName("LoginUser")
+            .Accepts<LogInUserRequestV1>(EndpointDefaults.CONTENT_TYPE)
             .Produces(200)
             .Produces(401)
             .WithTags(Tag).AllowAnonymous();
@@ -27,10 +28,10 @@ public class UsersEndpoints : IEndpoints
             .WithName("GetLoggedInUser")
             .Produces(200)
             .Produces(401)
-            .WithTags(Tag).RequireAuthorization(Policies.RegisteredRolePolicy);
+            .WithTags(Tag).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
     }
 
-    internal static async Task<IResult> RegisterUser(ISender sender, RegisterUserRequest request, CancellationToken cancellationToken)
+    internal static async Task<IResult> RegisterUser(ISender sender, RegisterUserRequestV1 request, CancellationToken cancellationToken)
     {
         var command = new RegisterUserCommand(
             request.Email,
@@ -53,7 +54,7 @@ public class UsersEndpoints : IEndpoints
         return Results.Ok("You are logged in silly");
     }
 
-    internal static async Task<IResult> LoginUser(ISender sender, LogInUserRequest request, CancellationToken cancellationToken)
+    internal static async Task<IResult> LoginUser(ISender sender, LogInUserRequestV1 request, CancellationToken cancellationToken)
     {
         var command = new LogInUserCommand(
             request.Email,

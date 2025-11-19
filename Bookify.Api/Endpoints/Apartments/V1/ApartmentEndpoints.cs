@@ -1,8 +1,7 @@
 ﻿namespace Bookify.Api.Endpoints.Apartments.V1;
 
-public sealed class ApartmentEndpoints : IEndpoints
+public sealed class ApartmentEndpoints : IVersionedEndpoints
 {
-    public static string ContentType => "application/json";
     public static string Tag => $"{nameof(ApartmentEndpoints)}";
     public static int MajorVersion => 1;
     public static int MinorVersion => 0;

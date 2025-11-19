@@ -2,5 +2,5 @@
 
 public static class Roles
 {
-    public const string Registered = "Registered";
+    public const string REGISTERED = "Registered";
 }

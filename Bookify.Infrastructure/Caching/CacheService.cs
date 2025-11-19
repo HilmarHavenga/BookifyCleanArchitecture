@@ -33,7 +33,7 @@ internal sealed class CacheService : ICacheService
 
     private static T Deserialize<T>(byte[] bytes)
     {
-        return System.Text.Json.JsonSerializer.Deserialize<T>(bytes)!;
+        return JsonSerializer.Deserialize<T>(bytes)!;
     }
 
     private static byte[] Serialize<T>(T value)

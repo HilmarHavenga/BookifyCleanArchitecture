@@ -2,5 +2,5 @@
 
 public static class Policies
 {
-    public const string RegisteredRolePolicy = "RegisteredRolePolicy";
+    public const string REGISTERED_ROLE_POLICY = "REGISTERED_ROLE_POLICY";
 }

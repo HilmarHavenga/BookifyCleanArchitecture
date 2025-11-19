@@ -1,15 +1,14 @@
 ﻿namespace Bookify.Api.Endpoints.Bookings.V1;
 
-public class BookingEndpoints : IEndpoints
+public class BookingEndpoints : IVersionedEndpoints
 {
-    public static string ContentType => "application/json";
     public static string Tag => $"{nameof(BookingEndpoints)}";
     public static int MajorVersion => 1;
     public static int MinorVersion => 0;
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
-        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(MajorVersion, MinorVersion).RequireAuthorization(Policies.RegisteredRolePolicy);
+        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(MajorVersion, MinorVersion).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
 
         versioned.MapGet("/", GetBooking)
             .WithName("GetBooking")
@@ -19,7 +18,7 @@ public class BookingEndpoints : IEndpoints
 
         versioned.MapPost("/", ReserveBooking)
             .WithName("ReserveBooking")
-            .Accepts<ReserveBookingRequestV1>(ContentType)
+            .Accepts<ReserveBookingRequestV1>(EndpointDefaults.CONTENT_TYPE)
             .Produces<Guid>(200)
             .Produces<Error>(400)
             .WithTags(Tag);
