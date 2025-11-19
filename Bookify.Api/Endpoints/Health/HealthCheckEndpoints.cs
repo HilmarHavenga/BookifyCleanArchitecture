@@ -19,6 +19,7 @@ public class HealthCheckEndpoints : IEndpoints
     {
         var healthReport = await healthCheckService.CheckHealthAsync(cancellationToken);
 
+        //Create a custom response object to avoid exceptions on serialization of unhealthy health report
         var response = new
         {
             status = healthReport.Status.ToString(),
