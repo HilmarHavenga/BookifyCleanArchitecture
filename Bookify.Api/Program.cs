@@ -1,11 +1,12 @@
-using System.Text.Json.Serialization;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddOpenApi();
+foreach (var versionString in Versions.AllAsStrings)
+{
+    builder.Services.AddOpenApi(versionString);
+}
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +34,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
+builder.Services.ConfigureOptions<ConfigureScalarOptions>();
 
 //Prefer to use the health check packages in infrastructure for standard checks
 //But here is a custom health check example if needed

@@ -1,14 +1,12 @@
 ﻿namespace Bookify.Api.Endpoints.Users.V1;
 
-public class UsersEndpoints : IVersionedEndpoints
+public class UsersEndpoints : IEndpoints
 {
     public static string Tag => $"{nameof(UsersEndpoints)}";
-    public static int MajorVersion => 1;
-    public static int MinorVersion => 0;
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
-        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/users").HasApiVersion(MajorVersion, MinorVersion);
+        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/users").HasDeprecatedApiVersion(Versions.V1).HasApiVersion(Versions.V2).ReportApiVersions();
 
         versioned.MapPost("/register", RegisterUser)
             .WithName("RegisterUser")
@@ -24,11 +22,17 @@ public class UsersEndpoints : IVersionedEndpoints
             .Produces(401)
             .WithTags(Tag).AllowAnonymous();
 
-        versioned.MapPost("/me", GetLoggedInUser)
-            .WithName("GetLoggedInUser")
+        versioned.MapGet("/me", GetLoggedInUser).MapToApiVersion(Versions.V1)
+            .WithName("GetLoggedInUserV1")
             .Produces(200)
             .Produces(401)
-            .WithTags(Tag).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
+            .WithTags(Tag);
+
+        versioned.MapGet("/me", GetLoggedInUser).MapToApiVersion(Versions.V2)
+            .WithName("GetLoggedInUserV2")
+            .Produces(200)
+            .Produces(401)
+            .WithTags(Tag);
     }
 
     internal static async Task<IResult> RegisterUser(ISender sender, RegisterUserRequestV1 request, CancellationToken cancellationToken)

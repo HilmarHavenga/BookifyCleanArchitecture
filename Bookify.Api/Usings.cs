@@ -23,3 +23,7 @@ global using Serilog.Context;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using System.Net;
 global using Bookify.Api.Endpoints.Health;
+global using Asp.Versioning.ApiExplorer;
+global using Microsoft.Extensions.Options;
+global using Bookify.Api.OpenApi;
+global using System.Text.Json.Serialization;

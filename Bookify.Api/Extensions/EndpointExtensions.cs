@@ -4,37 +4,18 @@ internal static class EndpointExtensions
 {
     public static void UseEndpoints<TMarker>(this IEndpointRouteBuilder app)
     {
-        var endpointTypes = GetEndpointTypesFromAssembly<TMarker>(typeof(TMarker)).ToList();
+        IEnumerable<TypeInfo> endpointTypes = GetEndpointTypesFromAssembly<TMarker>(typeof(TMarker));
 
         foreach (TypeInfo endpointType in endpointTypes)
         {
-            var type = endpointType.AsType();
-
-            if (typeof(IVersionedEndpoints).IsAssignableFrom(type))
-            {
-                endpointType
-                    .GetMethod(nameof(IVersionedEndpoints.DefineEndpoints))
-                    ?.Invoke(null, [app.NewVersionedApi(endpointType.Name)]);
-
-                continue;
-            }
-
-            if (typeof(IEndpoints).IsAssignableFrom(type))
-            {
-                endpointType
-                    .GetMethod(nameof(IEndpoints.DefineEndpoints))
-                    ?.Invoke(null, [app]);
-
-                continue;
-            }
-
-            throw new NotImplementedException($"Endpoint type {endpointType.Name} does not implement a supported interface.");
+            endpointType.GetMethod(nameof(IEndpoints.DefineEndpoints))?
+                .Invoke(null, [app.NewVersionedApi(endpointType.Name)]);
         }
     }
 
     internal static IEnumerable<TypeInfo> GetEndpointTypesFromAssembly<TMarker>(Type typeMarker)
     {
         return typeMarker.Assembly.DefinedTypes
-            .Where(type => !type.IsAbstract && !type.IsInterface && typeof(IEndpointBase).IsAssignableFrom(type));
+            .Where(type => !type.IsAbstract && !type.IsInterface && typeof(IEndpoints).IsAssignableFrom(type));
     }
 }

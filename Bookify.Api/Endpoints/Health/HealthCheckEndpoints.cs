@@ -4,7 +4,7 @@ public class HealthCheckEndpoints : IEndpoints
 {
     public static string Tag => $"{nameof(HealthCheckEndpoints)}";
 
-    public static void DefineEndpoints(IEndpointRouteBuilder app)
+    public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
         RouteGroupBuilder versioned = app.MapGroup("/api/health");
 

@@ -1,14 +1,12 @@
 ﻿namespace Bookify.Api.Endpoints.Bookings.V1;
 
-public class BookingEndpoints : IVersionedEndpoints
+public class BookingEndpoints : IEndpoints
 {
     public static string Tag => $"{nameof(BookingEndpoints)}";
-    public static int MajorVersion => 1;
-    public static int MinorVersion => 0;
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {
-        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(MajorVersion, MinorVersion).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
+        RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(Versions.V1).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
 
         versioned.MapGet("/", GetBooking)
             .WithName("GetBooking")
