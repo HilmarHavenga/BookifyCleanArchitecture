@@ -1,8 +1,8 @@
 ﻿namespace Bookify.Api.Endpoints.Users.V1;
 
-public class UsersEndpoints : IEndpoints
+public class UserEndpoints : IEndpoints
 {
-    public static string Tag => $"{nameof(UsersEndpoints)}";
+    public static string Tag => $"{nameof(UserEndpoints)}";
 
     public static void DefineEndpoints(IVersionedEndpointRouteBuilder app)
     {

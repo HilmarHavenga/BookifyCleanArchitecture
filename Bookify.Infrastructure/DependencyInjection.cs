@@ -17,6 +17,7 @@ public static class DependencyInjection
         AddAuthorization(services);
         AddCaching(services, configuration);
         AddHealthChecks(services, configuration);
+        AddBackgroundServices(services, configuration);
 
         return services;
     }
@@ -94,6 +95,12 @@ public static class DependencyInjection
             .AddNpgSql(configuration.GetConnectionString("Database")!)
             .AddRedis(configuration.GetConnectionString("Cache")!)
             .AddUrlGroup(new Uri(configuration["KeyCloak:BaseUrl"]!), HttpMethod.Get, "keycloak");
+    }
+
+    private static void AddBackgroundServices(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
+        services.AddHostedService<ProcessOutboxMessagesService>();
     }
 
     public static void ApplyMigrations(this IApplicationBuilder app)

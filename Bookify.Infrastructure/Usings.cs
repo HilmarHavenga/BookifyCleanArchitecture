@@ -38,3 +38,6 @@ global using Microsoft.AspNetCore.Http;
 global using Bookify.Application.Abstractions.Caching;
 global using Microsoft.Extensions.Caching.Distributed;
 global using Bookify.Infrastructure.Caching;
+global using Bookify.Infrastructure.Outbox;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
