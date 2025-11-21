@@ -1,0 +1,11 @@
+﻿global using Bookify.Domain.Users;
+global using FluentAssertions;
+global using Bookify.Domain.Abstractions;
+global using Bookify.Domain.UnitTests.Infrastructure;
+global using Bookify.Domain.Users.Events;
+global using Bookify.Domain.Apartments;
+global using Bookify.Domain.Shared;
+global using Bookify.Domain.Bookings;
+global using Bookify.Domain.UnitTests.Apartments;
+global using Bookify.Domain.UnitTests.Users;
+global using Bookify.Domain.Bookings.Events;

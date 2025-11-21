@@ -1,0 +1,11 @@
+﻿global using Bookify.Application.Bookings.ReserveBooking;
+global using Bookify.Application.Abstractions.Clock;
+global using Bookify.Domain.Abstractions;
+global using Bookify.Domain.Apartments;
+global using Bookify.Domain.Bookings;
+global using Bookify.Domain.Users;
+global using NSubstitute;
+global using FluentAssertions;
+global using Bookify.Domain.Shared;
+global using Bookify.Application.UnitTests.Users;
+global using Bookify.Application.UnitTests.Apartments;

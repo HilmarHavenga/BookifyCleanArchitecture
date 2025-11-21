@@ -8,7 +8,7 @@ public class BookingEndpoints : IEndpoints
     {
         RouteGroupBuilder versioned = app.MapGroup("/api/v{version:apiVersion}/bookings").HasApiVersion(Versions.V1).RequireAuthorization(Policies.REGISTERED_ROLE_POLICY);
 
-        versioned.MapGet("/", GetBooking)
+        versioned.MapGet("/{id}", GetBooking)
             .WithName("GetBooking")
             .Produces<BookingResponse>(200)
             .Produces(404)
@@ -23,7 +23,7 @@ public class BookingEndpoints : IEndpoints
     }
 
 
-    internal static async Task<IResult> GetBooking(ISender sender, [FromQuery]Guid id, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetBooking(Guid id, ISender sender, CancellationToken cancellationToken)
     {
         var query = new GetBookingQuery(id);
 
@@ -33,7 +33,7 @@ public class BookingEndpoints : IEndpoints
     }
 
 
-    internal static async Task<IResult> ReserveBooking(ISender sender, ReserveBookingRequestV1 request, CancellationToken cancellationToken)
+    internal static async Task<IResult> ReserveBooking(ReserveBookingRequestV1 request, ISender sender, CancellationToken cancellationToken)
     {
         var command = new ReserveBookingCommand(request.ApartmentId, request.UserId, request.StartDate, request.EndDate);
 
