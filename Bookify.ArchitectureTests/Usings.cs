@@ -1,0 +1,9 @@
+﻿global using Bookify.Api;
+global using Bookify.Application.Abstractions.Messaging;
+global using Bookify.Domain.Abstractions;
+global using Bookify.Infrastructure;
+global using System.Reflection;
+global using Bookify.ArchitectureTests.Infrastructure;
+global using FluentAssertions;
+global using NetArchTest.Rules;
+global using FluentValidation;

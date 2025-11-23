@@ -1,6 +1,4 @@
-﻿using Bookify.Domain.Bookings.Events;
-
-namespace Bookify.Domain.Bookings;
+﻿namespace Bookify.Domain.Bookings;
 
 public sealed class Booking : Entity
 {
@@ -27,7 +25,7 @@ public sealed class Booking : Entity
         CreatedOnUtc = createdOnUtc;
     }
 
-    public Booking()
+    private Booking()
     {
     }
 

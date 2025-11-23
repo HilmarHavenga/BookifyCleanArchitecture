@@ -10,3 +10,4 @@ global using Bookify.Domain.Shared;
 global using Bookify.Domain.Bookings;
 global using Bookify.Domain.Reviews.Events;
 global using Bookify.Domain.Users.Events;
+global using Bookify.Domain.Bookings.Events;
